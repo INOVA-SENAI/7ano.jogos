@@ -1,26 +1,41 @@
-// Teste da camada de dados. Uso: node teste-dados.mjs [--ao-vivo]
+// Teste da camada de dados. Uso: node teste-dados.mjs [--ao-vivo] [--snapshot]
+// --snapshot copia a planilha de agora para o SNAPSHOT_CSV de dados.js e depois testa
+// (as contagens fixas abaixo vão pedir atualização: confira os jogos novos antes de mudar).
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 
+const arquivo = new URL('./dados.js', import.meta.url)
+let fonte = readFileSync(arquivo, 'utf8')
+if (process.argv.includes('--snapshot')) {
+  const csv = await (await fetch(/var URL_AO_VIVO = '(.*)'/.exec(fonte)[1])).text()
+  assert.match(csv, /^"Nome do Aluno/, 'a planilha não respondeu ou as colunas mudaram')
+  // Função no replace: um "$&" dentro do CSV não vira padrão de substituição.
+  fonte = fonte.replace(/var SNAPSHOT_CSV = "[^\n]*"\n/, () => 'var SNAPSHOT_CSV = ' + JSON.stringify(csv) + '\n')
+  writeFileSync(arquivo, fonte)
+}
 const Dados = createRequire(import.meta.url)('./dados.js')
 
 // Pega o CSV embutido direto do fonte (é o mesmo que carregar() usa no fallback).
-const fonte = readFileSync(new URL('./dados.js', import.meta.url), 'utf8')
-const snapshot = JSON.parse(/var SNAPSHOT_CSV = (".*")\n/.exec(fonte)[1])
+const snapshot = JSON.parse(/var SNAPSHOT_CSV = ("[^\n]*")\n/.exec(fonte)[1])
 const jogos = Dados.processarCSV(snapshot)
 const achar = (autor, titulo) => jogos.find(j => j.autor === autor && j.titulo === titulo)
 
-// Snapshot: 20 linhas -> 17 jogos (3 reenvios pelo mesmo id), chaves únicas.
-assert.equal(jogos.length, 17)
+// Snapshot: 23 linhas -> 19 jogos (4 reenvios pelo mesmo id), chaves únicas, um jogo por aluno.
+assert.equal(jogos.length, 19)
 assert.equal(new Set(jogos.map(j => j.chave)).size, jogos.length)
-assert.equal(new Set(jogos.map(j => j.autor.toLowerCase())).size, 17)
+assert.equal(new Set(jogos.map(j => j.autor.toLowerCase())).size, jogos.length)
 
-// Link inválido: continua na lista, sem id/url/embed/thumb.
+// Link inválido: continua na lista, sem id/url/embed.
 const luta = achar('Ygor', 'Luta')
 assert.ok(luta)
-assert.deepEqual([luta.id, luta.url, luta.embed, luta.thumb], [null, null, null, null])
+assert.deepEqual([luta.id, luta.url, luta.embed], [null, null, null])
 assert.equal(luta.chave, 'sem-id-ygor-luta')
+
+// Pendente que depois ganha link (mesmo autor e título): fica só a jogável.
+const reenviado = Dados.processarCSV('h\nygor,luta,e um jogo,Ação,jogavel\nYgor,Luta,agora vai,Ação,https://scratch.mit.edu/projects/666/editor')
+assert.equal(reenviado.length, 1)
+assert.equal(reenviado[0].chave, '666')
 
 // Title Case só quando tudo minúsculo.
 assert.ok(jogos.some(j => j.autor === 'Eric de Souza de Chaves'))
@@ -34,7 +49,6 @@ assert.match(vale.sinopse, /naruto/)
 assert.equal(jogos.filter(j => j.id === '1388338161').length, 1)
 assert.equal(vale.url, 'https://scratch.mit.edu/projects/1388338161/')
 assert.equal(vale.embed, 'https://scratch.mit.edu/projects/1388338161/embed')
-assert.equal(vale.thumb, 'https://uploads.scratch.mit.edu/get_image/project/1388338161_480x360.png')
 
 // Sinopse: trim e no máximo uma linha em branco seguida.
 for (const j of jogos) {
@@ -68,18 +82,23 @@ for (const link of maliciosos) {
 }
 
 // Fallback: qualquer falha da busca ao vivo cai no snapshot, sem rejeitar.
+const csv = conteudo => () => Promise.resolve(new Response(conteudo, { headers: { 'content-type': 'text/csv; charset=utf-8' } }))
 const fetchReal = globalThis.fetch
+globalThis.fetch = csv(snapshot)
+assert.equal((await Dados.carregar()).fonte, 'ao-vivo')
 const respostas = [
   () => Promise.reject(new TypeError('rede')),
   () => Promise.resolve(new Response('erro', { status: 500, headers: { 'content-type': 'text/csv' } })),
   () => Promise.resolve(new Response('<!DOCTYPE html><title>Login</title>', { headers: { 'content-type': 'text/html' } })),
-  () => Promise.resolve(new Response('so,cabecalho\n', { headers: { 'content-type': 'text/csv' } })),
+  csv('"Nome do Aluno:","Nome do Jogo:"\n'),
+  // Coluna inserida antes do e-mail: C passa a ser o e-mail, e não pode ir para a página.
+  csv('"Endereço de e-mail","Nome do Aluno:","Nome do Jogo:","Sínopse do Jogo:","Gênero do Jogo:"\nana.souza@escola.br,Ana,Jogo,sinopse,Ação'),
 ]
 for (const resposta of respostas) {
   globalThis.fetch = resposta
   const r = await Dados.carregar()
   assert.equal(r.fonte, 'snapshot')
-  assert.equal(r.jogos.length, 17)
+  assert.equal(r.jogos.length, jogos.length)
 }
 globalThis.fetch = fetchReal
 

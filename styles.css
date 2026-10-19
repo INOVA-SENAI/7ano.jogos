@@ -30,8 +30,9 @@ button,input{font:inherit;color:inherit}
     linear-gradient(90deg, transparent calc(83% - 2px), var(--capa-linha) calc(83% - 2px) calc(83% + 1px), transparent calc(83% + 1px)),
     repeating-linear-gradient(90deg, rgba(0,0,0,.07) 0 90px, transparent 90px 180px),
     var(--capa)}
-.capa-in{max-width:1400px;margin:0 auto;padding:28px 40px 30px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px 48px;align-items:end;position:relative}
-.capa-txt{--h1:clamp(78px,13.2vw,196px);display:grid;align-items:start}
+.capa-in{max-width:1400px;margin:0 auto;padding:20px 40px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px 48px;align-items:end;position:relative}
+/* o título cede pela altura também: a 1ª fileira de figurinhas tem que caber na primeira tela */
+.capa-txt{--h1:clamp(64px,min(8.5vw,11.5vh),128px);display:grid;align-items:start}
 .capa-txt > :not(.fig-capa){position:relative;z-index:1}
 .etiquetas{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:0 0 4px}
 .etq{background:var(--amarelo);color:var(--tinta);font:800 13px/1 var(--display);font-stretch:80%;text-transform:uppercase;letter-spacing:.02em;padding:7px 9px 6px;border:2px solid var(--tinta);box-shadow:3px 3px 0 var(--tinta)}
@@ -44,9 +45,9 @@ h1 .h1b{color:#fff;text-shadow:5px 5px 0 var(--capa-esc);margin-left:.06em}
 .lead{max-width:34em;margin:18px 0 0;font-size:clamp(16px,1.35vw,19px);line-height:1.45}
 .lead b{background:var(--amarelo);color:var(--tinta);padding:0 .2em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 
-.fig-capa{grid-area:2/1;position:relative;margin:calc(var(--h1)*.08) 0 0 calc(var(--h1)*2.6 + 28px);width:132px;padding:10px 10px 8px;border-radius:7px;color:var(--tinta);transform:rotate(9deg);box-shadow:0 0 0 2px var(--tinta),6px 7px 0 var(--capa-esc);text-align:center}
-.fig-capa b{display:block;font:900 64px/.8 var(--display);font-stretch:62%;margin-top:6px}
-.fig-capa span{display:block;font:800 13px/1.1 var(--display);font-stretch:85%;text-transform:uppercase;margin-top:6px;border-top:2px solid var(--tinta);padding-top:6px}
+.fig-capa{grid-area:2/1;position:relative;margin:calc(var(--h1)*.08) 0 0 calc(var(--h1)*2.6 + 28px);width:76px;padding:6px 6px 5px;border-radius:7px;color:var(--tinta);transform:rotate(9deg);box-shadow:0 0 0 2px var(--tinta),6px 7px 0 var(--capa-esc);text-align:center}
+.fig-capa b{display:block;font:900 36px/.8 var(--display);font-stretch:62%;margin-top:6px}
+.fig-capa span{display:block;font:800 10px/1.1 var(--display);font-stretch:85%;text-transform:uppercase;margin-top:4px;border-top:2px solid var(--tinta);padding-top:4px}
 
 .conferencia{position:relative;background:#fff;color:var(--tinta);border:3px solid var(--tinta);box-shadow:8px 8px 0 var(--capa-esc);padding:14px 18px 12px;min-width:270px;transform:rotate(1.4deg);margin:0 6px 8px 0}
 .conferencia h2{margin:0 0 6px;font:900 15px/1 var(--display);font-stretch:85%;text-transform:uppercase;letter-spacing:.03em;border-bottom:2px solid var(--tinta);padding-bottom:8px}
@@ -54,14 +55,16 @@ h1 .h1b{color:#fff;text-shadow:5px 5px 0 var(--capa-esc);margin-left:.06em}
 .conferencia dt{font-weight:700;font-size:15px;display:flex;align-items:baseline;gap:6px;min-width:0}
 .conferencia dt::after{content:"";flex:1;border-bottom:2px dotted #8c8b84;transform:translateY(-4px)}
 .conferencia dd{margin:0 0 0 6px;font:900 42px/1.05 var(--display);font-stretch:62%;text-align:right;min-width:1.4em}
-.conferencia dd:last-of-type{color:var(--carimbo)}
 .nota{position:absolute;font-size:23px;line-height:1;color:var(--vermelho);transform:rotate(-6deg);white-space:nowrap}
-.conferencia .nota{left:-118px;bottom:-6px;color:var(--amarelo)}
+/* a nota fala do progresso: a seta desce até a última linha do quadro */
+.conferencia .nota{left:-118px;bottom:2px;color:var(--amarelo)}
 .nota svg{position:absolute;overflow:visible}
-.conferencia .nota svg{right:-34px;top:-20px;width:40px;height:30px}
+.conferencia .nota svg{right:-30px;top:10px;width:40px;height:30px;transform:scaleY(-1)}
 
 /* ---------- controles ---------- */
-.controles{max-width:1400px;margin:0 auto;padding:6px 40px 26px;display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center}
+/* gruda no topo ao rolar: busca e pacotinho sempre à mão. O padding lateral centraliza em 1400px como o resto */
+.controles{position:sticky;top:0;z-index:4;padding:8px max(40px,calc(50% - 660px)) 12px;display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center;background:var(--capa);box-shadow:0 3px 0 var(--capa-esc)}
+html{scroll-padding:150px 0 0}
 .busca{position:relative;flex:1 1 280px;max-width:420px}
 .busca svg{position:absolute;left:14px;top:50%;width:22px;height:22px;transform:translateY(-50%);pointer-events:none}
 .busca input{width:100%;height:52px;padding:0 14px 0 46px;border:3px solid var(--tinta);border-radius:4px;background:#fff;box-shadow:4px 4px 0 var(--capa-esc);font-size:17px}
@@ -69,11 +72,11 @@ h1 .h1b{color:#fff;text-shadow:5px 5px 0 var(--capa-esc);margin-left:.06em}
 .busca input::-webkit-search-cancel-button{cursor:pointer}
 .abas{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:8px 8px 12px;margin:-8px -8px -12px;max-width:calc(100% + 16px)}
 .abas::-webkit-scrollbar{display:none}
-.aba{flex:none;display:flex;align-items:center;gap:7px;height:46px;padding:0 14px;border:2.5px solid var(--tinta);border-radius:6px 6px 3px 3px;background:var(--c,#fff);color:var(--ct,var(--tinta));font:800 19px/1 var(--display);font-stretch:85%;cursor:pointer;box-shadow:0 5px 0 var(--tinta)}
+.aba{flex:none;display:flex;align-items:center;gap:7px;height:52px;padding:0 14px;border:2.5px solid var(--tinta);border-radius:6px 6px 3px 3px;background:var(--c,#fff);color:var(--ct,var(--tinta));font:800 19px/1 var(--display);font-stretch:85%;cursor:pointer;box-shadow:0 5px 0 var(--tinta)}
 .aba svg{width:18px;height:18px}
 .aba .qt{font-stretch:62%;font-weight:900;font-size:19px;opacity:.8}
 .aba[aria-pressed="true"]{transform:translateY(5px);box-shadow:inset 0 0 0 3px var(--amarelo),inset 0 0 0 5px var(--tinta)}
-.pacotinho{margin-left:auto;display:flex;align-items:center;gap:10px;height:56px;padding:0 18px 0 14px;border:3px solid var(--tinta);border-radius:4px;background:var(--amarelo);cursor:pointer;box-shadow:0 6px 0 var(--tinta);text-align:left}
+.pacotinho{margin-left:auto;display:flex;align-items:center;gap:10px;height:52px;padding:0 18px 0 14px;border:3px solid var(--tinta);border-radius:4px;background:var(--amarelo);cursor:pointer;box-shadow:0 6px 0 var(--tinta);text-align:left}
 .pacotinho svg{width:30px;height:34px;flex:none}
 .pacotinho span{display:block;font:900 20px/1 var(--display);font-stretch:80%;text-transform:uppercase}
 .pacotinho small{display:block;font:700 13px/1.2 var(--texto);margin-top:2px}
@@ -87,7 +90,7 @@ main{max-width:1400px;margin:0 auto;padding:10px 40px 30px;display:grid;gap:44px
 .pagina:nth-of-type(2n){--pr:.25deg}
 .pagina:nth-of-type(2n+1){--pr:-.2deg}
 .pag-topo{position:relative;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 20px;background:var(--cor);color:var(--ct);padding:16px 28px 12px;border-bottom:3px solid var(--tinta)}
-.pag-topo h2{margin:0;min-width:0;overflow-wrap:anywhere;font:900 clamp(44px,7vw,96px)/.82 var(--display);font-stretch:125%;text-transform:uppercase;letter-spacing:-.025em}
+.pag-topo h2{margin:0;min-width:0;overflow-wrap:anywhere;font:900 clamp(40px,5vw,72px)/.9 var(--display);font-stretch:125%;text-transform:uppercase;letter-spacing:-.025em}
 .faixa-num{background:#fff;color:var(--tinta);border:2px solid var(--tinta);font:800 14px/1 var(--display);font-stretch:85%;text-transform:uppercase;padding:7px 9px 6px;margin-bottom:6px;white-space:nowrap}
 .pag-desc{position:relative;margin:14px 28px 0;max-width:46em;font-size:17px;color:var(--tinta-2)}
 .pag-num{position:absolute;right:16px;bottom:10px;font:700 14px/1 var(--display);font-stretch:85%;color:#5f5e58}
@@ -98,14 +101,16 @@ main{max-width:1400px;margin:0 auto;padding:10px 40px 30px;display:grid;gap:44px
 .slot::after{content:attr(data-n);position:absolute;right:7px;bottom:5px;font:900 13px/1 var(--display);font-stretch:62%;color:rgba(0,0,0,.4)}
 .fig{position:relative;z-index:1;display:block;width:100%;padding:0;margin:0;border:0;text-align:left;background:#fff;border-radius:6px;cursor:pointer;
   box-shadow:0 0 0 2px var(--tinta);transform:translate(var(--dx),var(--dy)) rotate(var(--rot))}
-.arte{position:relative;display:block;aspect-ratio:1;container-type:inline-size;overflow:hidden;border-radius:6px 6px 0 0;border-bottom:2px solid var(--tinta)}
+/* overflow:clip (e não hidden) deixa o quadrado crescer se o texto não couber, ex.: espaçamento de texto do leitor */
+.arte{position:relative;display:block;aspect-ratio:1;container-type:inline-size;overflow:clip;border-radius:6px 6px 0 0;border-bottom:2px solid var(--tinta)}
 .arte::after,.fg-arte::after{content:"";position:absolute;inset:0;background:var(--grao);opacity:.35;mix-blend-mode:multiply;pointer-events:none}
-.poster{position:absolute;inset:9% 8% 11% 8%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:.04em;transform:rotate(var(--prot));
-  font-family:var(--display);font-weight:900;font-stretch:62%;text-transform:uppercase;line-height:.86;letter-spacing:.005em;
-  font-size:min(calc(158cqi / var(--len)), calc(66cqi / var(--n)), 44cqi);color:var(--letra);
+.poster{position:relative;min-height:100%;padding:9cqi 8cqi 11cqi;display:flex;flex-direction:column;justify-content:safe center;align-items:flex-start;gap:.1em;transform:rotate(var(--prot));
+  font-family:var(--display);font-weight:900;font-stretch:62%;text-transform:uppercase;line-height:.94;letter-spacing:.005em;word-spacing:.22em;
+  font-size:min(calc(148cqi / var(--len)), calc(62cqi / var(--n)), 44cqi);color:var(--letra);
   -webkit-text-stroke:.1em var(--tinta);paint-order:stroke fill;text-shadow:.07em .07em 0 var(--tinta)}
-.poster span{display:block;white-space:nowrap}
-.escudinho{position:absolute;right:6%;bottom:6%;width:23%;aspect-ratio:1;border-radius:50%;background:#fff;border:2px solid var(--tinta);display:grid;place-items:center;color:var(--tinta)}
+.poster span{display:block;overflow-wrap:anywhere}
+/* z-index -1: fica sobre o fundo da .arte (o container-type dela isola o empilhamento) e embaixo das letras */
+.escudinho{position:absolute;z-index:-1;right:6%;bottom:6%;width:23%;aspect-ratio:1;border-radius:50%;background:#fff;border:2px solid var(--tinta);display:grid;place-items:center;color:var(--tinta)}
 .escudinho svg{width:58%;height:58%}
 .faixa{display:flex;align-items:center;gap:9px;padding:7px 10px 9px;min-height:52px;background:#fff}
 .num{flex:none;font:900 30px/.9 var(--display);font-stretch:62%;color:var(--tinta);padding-right:9px;border-right:2px solid var(--tinta)}
@@ -114,14 +119,15 @@ main{max-width:1400px;margin:0 auto;padding:10px 40px 30px;display:grid;gap:44px
 .fig:hover::before,.fig:focus-visible::before{width:30px;height:30px}
 .fig:focus-visible{box-shadow:0 0 0 2px var(--tinta),0 0 0 9px var(--amarelo)}
 .sorteio .fig{box-shadow:0 0 0 2px var(--tinta),0 0 0 8px var(--amarelo)}
-/* já abriu o jogo: carimbo de colada */
-.colada .fig::after{content:"colada";position:absolute;z-index:3;top:-10px;right:-8px;padding:4px 6px 3px;background:var(--papel);color:var(--carimbo);border:2px solid;border-radius:3px;box-shadow:0 0 0 2px var(--papel);font:900 13px/1 var(--display);font-stretch:75%;text-transform:uppercase;letter-spacing:.04em;transform:rotate(8deg);pointer-events:none}
+/* já abriu o jogo: carimbo de "joguei" (a classe continua .colada por causa do app.js) */
+.colada .fig::after{content:"joguei";position:absolute;z-index:3;top:-10px;right:-8px;padding:4px 6px 3px;background:var(--papel);color:var(--carimbo);border:2px solid;border-radius:3px;box-shadow:0 0 0 2px var(--papel);font:900 13px/1 var(--display);font-stretch:75%;text-transform:uppercase;letter-spacing:.04em;transform:rotate(8deg);pointer-events:none}
 
 /* figurinha que ainda não chegou */
 .vazia{display:flex;flex-direction:column;align-items:flex-start;width:100%;height:100%;min-height:200px;padding:12px;margin:0;border:2px dashed rgba(0,0,0,.4);border-radius:5px;background:transparent;text-align:left;cursor:pointer;position:relative}
-.vazia .gde{font:900 64px/.8 var(--display);font-stretch:62%;color:rgba(0,0,0,.2)}
-.vazia .cole{font:800 12px/1 var(--display);font-stretch:85%;text-transform:uppercase;color:#6c6b64;margin:8px 0 auto}
+.vazia .gde{font:900 64px/.8 var(--display);font-stretch:62%;color:rgba(0,0,0,.5)}
+.vazia .cole{font:800 12px/1 var(--display);font-stretch:85%;text-transform:uppercase;color:#5f5e58;margin:8px 0 auto}
 .vazia .t{font:800 17px/1.1 var(--display);font-stretch:90%;margin-top:14px}
+.vazia .t,.vazia .a{max-width:100%;overflow-wrap:anywhere}
 .vazia .a{font-size:14px;font-weight:700;color:var(--tinta-2)}
 .carimbo{position:absolute;top:57%;left:50%;transform:translate(-50%,-50%) rotate(-14deg);border:3px solid var(--carimbo);color:var(--carimbo);font:900 17px/1 var(--display);font-stretch:75%;text-transform:uppercase;padding:6px 8px 5px;border-radius:3px;white-space:nowrap;background:rgba(243,243,238,.75)}
 
@@ -176,22 +182,24 @@ dialog.tela::backdrop{background:rgba(4,28,17,.86)}
 /* a figurinha ampliada */
 .fig-grande{background:#fff;border-radius:6px;box-shadow:0 0 0 2px var(--tinta),6px 6px 0 var(--tinta);transform:rotate(1deg);margin:2px 8px 0 2px}
 .fg-arte{position:relative;overflow:hidden;border-radius:6px 6px 0 0;padding:22px 18px 24px;border-bottom:2px solid var(--tinta);background:repeating-linear-gradient(-45deg,rgba(0,0,0,.1) 0 11px,transparent 11px 22px),var(--cor,#999)}
-.fg-arte h2{margin:0;color:#fff;font:900 clamp(40px,4.2vw,62px)/.86 var(--display);font-stretch:62%;text-transform:uppercase;letter-spacing:.005em;overflow-wrap:anywhere;-webkit-text-stroke:.1em var(--tinta);paint-order:stroke fill;text-shadow:.07em .07em 0 var(--tinta);transform:rotate(-2deg)}
+.fg-arte h2{margin:0;color:#fff;font:900 clamp(40px,4.2vw,62px)/.94 var(--display);font-stretch:62%;text-transform:uppercase;letter-spacing:.005em;word-spacing:.22em;overflow-wrap:anywhere;-webkit-text-stroke:.1em var(--tinta);paint-order:stroke fill;text-shadow:.07em .07em 0 var(--tinta);transform:rotate(-2deg)}
 .fg-faixa{display:flex;align-items:center;gap:12px;margin:0;padding:10px 14px 12px}
 .fg-faixa .n{flex:none;font:900 44px/.9 var(--display);font-stretch:62%;padding-right:12px;border-right:2px solid var(--tinta)}
 .craque{display:flex;flex-direction:column;gap:2px;min-width:0}
 .craque .mao{font-size:20px;line-height:1;color:var(--tinta-2)}
 .craque b{font:800 22px/1.1 var(--display);font-stretch:95%;overflow-wrap:anywhere}
-.verso h3{margin:24px 0 6px;font:900 14px/1 var(--display);font-stretch:85%;text-transform:uppercase;letter-spacing:.03em;border-bottom:2px solid var(--tinta);padding-bottom:6px}
+.verso h3{margin:20px 0 6px;font:900 14px/1 var(--display);font-stretch:85%;text-transform:uppercase;letter-spacing:.03em;border-bottom:2px solid var(--tinta);padding-bottom:6px}
 .sinopse{margin:0;white-space:pre-line;font-size:16.5px;line-height:1.5;overflow-wrap:anywhere}
-.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
-.aviso{margin:14px 0 0;font-size:14px;color:var(--tinta-2);border-top:1.5px dashed #9a998f;padding-top:10px}
+.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+.aviso{margin:10px 0 0;font-size:14px;color:var(--tinta-2)}
 
-/* ---------- telas médias: figurinha da capa menor e o "falta 1 link" em cima do quadro ---------- */
+/* ---------- até 1340px os três não cabem numa linha: busca + pacotinho em cima, abas roláveis embaixo ---------- */
+@media (max-width:1340px){
+  .abas{order:3;flex:1 1 100%;max-width:none}
+}
+
+/* ---------- telas médias: a nota da conferência em cima do quadro ---------- */
 @media (max-width:960px){
-  .fig-capa{width:76px;padding:6px 6px 5px}
-  .fig-capa b{font-size:36px}
-  .fig-capa span{font-size:10px;margin-top:4px;padding-top:4px}
   .conferencia{margin-top:32px}
   .conferencia .nota{left:auto;right:6px;bottom:auto;top:-42px;font-size:20px}
   .conferencia .nota svg{display:none}
@@ -200,32 +208,44 @@ dialog.tela::backdrop{background:rgba(4,28,17,.86)}
 /* ---------- celular ---------- */
 @media (max-width:760px){
   .capa{background:repeating-linear-gradient(90deg, rgba(0,0,0,.07) 0 60px, transparent 60px 120px),var(--capa)}
-  .capa-in{grid-template-columns:1fr;padding:20px 16px 20px}
-  .capa-txt{--h1:clamp(70px,24vw,110px)}
+  .capa-in{grid-template-columns:1fr;gap:16px;padding:16px 16px 20px}
+  .etiquetas{gap:8px 10px}
+  .etiquetas .mao{font-size:17px}
+  .capa-txt{--h1:clamp(56px,17vw,80px)}
   .fig-capa{margin:0 0 0 calc(var(--h1)*2.6 + 10px)}
   .fig-capa::before{content:"";position:absolute;left:50%;top:50%;width:240px;aspect-ratio:1;border:3px solid var(--capa-linha);border-radius:50%;transform:translate(-50%,-50%)}
-  .conferencia{min-width:0;margin:32px 8px 0 0;padding:10px 14px 8px}
-  .conferencia dd{font-size:36px}
-  .controles{padding:4px 16px 20px;gap:12px}
+  /* conferência vira uma faixa: número em cima, nome embaixo, e o recado vai a caneta dentro do quadro */
+  .conferencia{min-width:0;margin:0 8px 0 0;padding:8px 12px 6px}
+  .conferencia h2{font-size:12px;padding-bottom:6px}
+  .conferencia dl{grid-template-columns:repeat(4,1fr);text-align:center}
+  .conferencia dt{grid-row:2;display:block;font-size:13px}
+  .conferencia dt::after{content:none}
+  .conferencia dd{grid-row:1;margin:0;font-size:30px;text-align:center}
+  .conferencia .nota{right:12px;top:-8px;font-size:17px;color:var(--carimbo);transform:rotate(-3deg)}
+  .controles{position:static;box-shadow:none;padding:4px 16px 16px;gap:12px}
   .busca{flex-basis:100%;max-width:none}
-  .abas{flex:1 1 100%;max-width:none;margin:-8px -16px -12px;padding:8px 16px 12px;scroll-padding-inline:16px}
-  .pacotinho{margin-left:0;width:100%;justify-content:center}
+  .abas{margin:-8px -16px -12px;padding:8px 16px 12px;scroll-padding-inline:16px}
+  /* pacotinho na zona do polegar, à mão em qualquer ponto da página */
+  .pacotinho{position:fixed;left:16px;right:16px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:5;justify-content:center}
+  html{scroll-padding:0 0 90px}
   .status{padding:0 16px}
   main{padding:6px 16px 24px;gap:34px}
-  .pag-topo{padding:12px 14px 10px}
+  .pag-topo{padding:12px 14px 10px;gap:8px 12px}
+  .faixa-num{font-size:12px;padding:6px 7px 5px}
   .pag-topo h2{font-size:11vw}
   .pag-desc{margin:12px 14px 0;font-size:16px}
   .grade{padding:16px 14px 38px;gap:20px 14px;grid-template-columns:repeat(auto-fill,minmax(136px,1fr))}
   .autor{font-size:13.5px}
-  footer{grid-template-columns:1fr;padding:12px 16px 40px}
+  footer{grid-template-columns:1fr;padding:12px 16px 96px}
   .cole-aqui{padding:14px;gap:14px;align-items:flex-start}
   .cole-aqui .gde{font-size:64px}
   /* tela de jogo vira tela cheia: jogo de ponta a ponta, Fechar sempre no topo */
   dialog.tela{width:100%;max-width:100%;height:100dvh;max-height:100dvh;margin:0;border:0;border-radius:0;box-shadow:none}
   .tela-corpo{grid-template-columns:1fr;padding:0 0 24px;gap:20px}
   .tela-top{padding:8px 8px 8px 14px;gap:8px}
-  .tela-top .g{font-size:18px}
-  .palco{max-width:none;padding:0;border-radius:0;box-shadow:none;border-bottom:3px solid var(--tinta)}
+  .tela-top .g{font-size:19px}
+  /* limite pela altura: com zoom de 200% (640x360) o jogo inteiro cabe embaixo da barra */
+  .palco{width:100%;max-width:calc((100dvh - 64px) * 1.2);margin-inline:auto;padding:0;border-radius:0;box-shadow:none;border-bottom:3px solid var(--tinta)}
   .verso{padding:0 16px}
   .fig-grande{transform:rotate(-.6deg)}
 }

@@ -13,6 +13,7 @@
 ```sh
 python3 -m http.server 8000   # abrir http://localhost:8000
 node teste-dados.mjs          # testa parser, normalização e deduplicação
+node teste-dados.mjs --snapshot  # atualiza a cópia salva da planilha dentro de dados.js
 ```
 
 Site estático, sem build: `index.html`, `styles.css`, `app.js`, `dados.js`. Publica direto no GitHub Pages (Settings → Pages → branch `main`, pasta raiz).
