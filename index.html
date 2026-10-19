@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Álbum de Jogos do 7º ano</title>
+<meta name="description" content="Os jogos que a turma do 7º ano programou no Scratch, colados num álbum de figurinhas. Clica e joga.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='2' width='24' height='28' rx='3' fill='%23FFD60A' stroke='%23151515' stroke-width='2.5'/%3E%3Cpath d='M5.3 22h21.4v6.7H5.3z' fill='%230C5A3A'/%3E%3Cpath d='M5 22h22' stroke='%23151515' stroke-width='2'/%3E%3Ctext x='16' y='19.5' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='18' fill='%23151515'%3E7%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Atkinson+Hyperlegible+Next:wght@400..800&family=Gochi+Hand&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="pular" href="#album">Pular para as figurinhas</a>
+
+<header class="capa">
+  <div class="capa-in">
+    <div class="capa-txt">
+      <p class="etiquetas"><span class="etq">Coleção 2026</span><span class="mao">turma do 7º ano, SESI/SENAI</span></p>
+      <h1><span class="h1a">Álbum</span><span class="h1b">de jogos</span></h1>
+      <div class="fig-capa foil" aria-hidden="true"><b>7º</b><span>ano 2026</span></div>
+      <p class="lead">Cada figurinha aqui é um jogo de verdade, programado no Scratch por alguém da turma. <b>Clica numa e joga aqui mesmo.</b></p>
+    </div>
+    <aside class="conferencia" aria-labelledby="conf-t">
+      <h2 id="conf-t">Conferência do álbum</h2>
+      <dl>
+        <dt>Jogos</dt><dd id="c-jogos">–</dd>
+        <dt>Craques</dt><dd id="c-craques">–</dd>
+        <dt>Seções</dt><dd id="c-secoes">–</dd>
+        <dt>Coladas</dt><dd id="c-coladas">0</dd>
+      </dl>
+      <p class="nota mao" id="c-nota" hidden></p>
+    </aside>
+  </div>
+</header>
+
+<div class="controles" id="controles" hidden>
+  <label class="busca">
+    <span class="sr">Procurar pelo nome do jogo ou de quem fez</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg>
+    <input id="busca" type="search" placeholder="Procurar jogo ou craque" autocomplete="off" spellcheck="false">
+  </label>
+  <div class="abas" id="abas" role="group" aria-label="Seções do álbum"></div>
+  <button class="pacotinho" id="pacotinho" type="button">
+    <svg viewBox="0 0 30 34" aria-hidden="true"><path d="M3 6.5 6 3l3 3.5L12 3l3 3.5L18 3l3 3.5L24 3l3 3.5V31H3z" fill="#fff" stroke="#151515" stroke-width="2.4" stroke-linejoin="round"/><path d="M3 11h24" stroke="#151515" stroke-width="2"/><text x="15" y="27" text-anchor="middle" font-family="Archivo, Arial" font-weight="900" font-size="15" fill="#E8352A">?</text></svg>
+    <span>Abrir pacotinho<small>sorteia um jogo pra você</small></span>
+  </button>
+</div>
+<p class="status" id="status" aria-live="polite"></p>
+
+<main id="album" tabindex="-1">
+  <section class="carregando" aria-busy="true">
+    <p class="mao">Abrindo os pacotinhos…</p>
+    <ul class="grade" aria-hidden="true"><li class="slot">01</li><li class="slot">02</li><li class="slot">03</li><li class="slot">04</li><li class="slot">05</li><li class="slot">06</li><li class="slot">07</li></ul>
+  </section>
+</main>
+
+<footer>
+  <aside class="cole-aqui" aria-labelledby="cole-t">
+    <span class="gde" aria-hidden="true">??</span>
+    <div>
+      <p class="cole">cole aqui</p>
+      <h2 id="cole-t">Fez um jogo e ele não tá no álbum?</h2>
+      <p>Manda pelo formulário da turma, o mesmo que todo mundo usou. Com o link do Scratch junto, ele ganha figurinha aqui.</p>
+    </div>
+  </aside>
+  <div>
+    <p>Os jogos são dos alunos e moram no Scratch, cada um na conta de quem fez. Este álbum só cola as figurinhas na mesma página.</p>
+    <p class="fonte" id="fonte"></p>
+  </div>
+  <p class="assina mao">feito pela turma, no Scratch</p>
+</footer>
+
+<dialog class="tela" id="tela-jogo" aria-labelledby="t-titulo">
+  <div class="tela-top">
+    <span class="g" id="t-gen"></span>
+    <button class="fechar" id="t-fechar" type="button"><svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="m3 3 10 10M13 3 3 13"/></svg>Fechar</button>
+  </div>
+  <div class="tela-corpo">
+    <div class="palco" id="t-palco"></div>
+    <div class="verso">
+      <div class="fig-grande">
+        <div class="fg-arte"><h2 id="t-titulo"></h2></div>
+        <p class="fg-faixa"><span class="n" id="t-num"></span><span class="craque"><span class="mao">feito por</span><b id="t-autor"></b></span></p>
+      </div>
+      <h3>Nas palavras de quem fez</h3>
+      <p class="sinopse" id="t-sinopse"></p>
+      <div class="acoes" id="t-acoes"></div>
+      <p class="aviso" id="t-aviso">Apareceu erro ou a tela ficou cinza? O projeto talvez ainda não esteja compartilhado no Scratch.</p>
+    </div>
+  </div>
+</dialog>
+
+<script src="dados.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
