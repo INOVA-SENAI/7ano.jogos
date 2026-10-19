@@ -20,7 +20,7 @@ const GENEROS = {
               pal:[{a:"#0078BF",b:"#0069A8",l:"#fff"},{a:"#00A651",b:"#009447",l:"#FFD60A"},{a:"#FFD60A",b:"#F2C700",l:"#0078BF"}] }
 };
 const ORDEM = ["acao", "aventura", "esportes"];
-const EXTRAS = [["#00A88F","#00957F"],["#D6336C","#C22A5F"],["#8C5A2B","#7B4E25"],["#55702A","#4A6224"]];
+const EXTRAS = [["#007A66","#006B5A"],["#D6336C","#C22A5F"],["#8C5A2B","#7B4E25"],["#55702A","#4A6224"]];
 
 const PADROES = [
   (a, b) => `repeating-conic-gradient(from -4deg at 50% 118%, ${b} 0 7deg, ${a} 7deg 14deg)`,
@@ -246,6 +246,7 @@ let aberto = null, empilhado = false, voltando = false;
 
 function abrir(j) {
   const d = $("tela-jogo"), cfg = j.secao.cfg;
+  if (aberto && !d.open) aoFechar(); // o evento "close" do jogo anterior ainda não rodou: fecha a conta dele antes
   aberto = j;
   d.style.setProperty("--cor", cfg.cor);
   d.style.setProperty("--ct", cfg.ct);
@@ -286,12 +287,12 @@ function abrir(j) {
 }
 
 function aoFechar() {
+  const j = aberto;
+  if (!j || $("tela-jogo").open) return; // nada a fechar, ou evento atrasado de uma tela que já reabriu
+  aberto = null;
   $("t-palco").replaceChildren(); // tira o iframe: o som para junto
   if (location.hash) history.replaceState(null, "", location.pathname + location.search);
   if (empilhado) { empilhado = false; voltando = true; history.back(); }
-  const j = aberto;
-  aberto = null;
-  if (!j) return;
   j.botao.focus();
   j.li.classList.remove("colando");
   void j.li.offsetWidth; // reinicia a animação
